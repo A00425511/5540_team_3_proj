@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Table: {{ table }}</h2>
+{% if rows %}
+<table>
+  <tr>{% for c in columns %}<th>{{ c }}</th>{% endfor %}</tr>
+  {% for row in rows %}
+  <tr>{% for value in row %}<td>{{ value if value is not none else '' }}</td>{% endfor %}</tr>
+  {% endfor %}
+</table>
+<p>{{ rows|length }} row(s) shown (max 200).</p>
+{% else %}
+<p>No rows in this table.</p>
+{% endif %}
+<p><a href="{{ url_for('index') }}">Back to all tables</a></p>
+{% endblock %}

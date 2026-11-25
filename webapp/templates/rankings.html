@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Rankings — N-best / N-worst software</h2>
+<form method="post">
+  <label>How many (N)</label>
+  <input type="number" name="n" min="1" max="50" value="{{ params.n }}">
+  <label>Criterion</label>
+  <select name="criterion">
+    {% for key, (expr, label) in criteria.items() %}
+      <option value="{{ key }}" {% if params.criterion == key %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <label>Best or worst</label>
+  <select name="direction">
+    <option value="best" {% if params.direction == 'best' %}selected{% endif %}>Best</option>
+    <option value="worst" {% if params.direction == 'worst' %}selected{% endif %}>Worst</option>
+  </select>
+  <label>Product type</label>
+  <select name="type_id">
+    <option value="0">All types</option>
+    {% for tid, tname in types %}
+      <option value="{{ tid }}" {% if params.type_id|string == tid|string %}selected{% endif %}>{{ tname }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <button type="submit">Show rankings</button>
+</form>
+
+{% if results is not none %}
+  <h3>Results — {{ params.label }}</h3>
+  {% if results %}
+  <table>
+    <tr><th>Brand</th><th>Type</th><th>Friendliness</th><th>Price</th>
+        <th>Features</th><th>Accuracy</th><th>Score</th></tr>
+    {% for r in results %}
+    <tr>
+      <td>{{ r.Brand }}</td><td>{{ r.TypeName }}</td>
+      <td>{{ "%.2f"|format(r.avg_friendliness) }}</td>
+      <td>{{ "%.2f"|format(r.avg_price) }}</td>
+      <td>{{ "%.2f"|format(r.avg_features) }}</td>
+      <td>{{ "%.2f"|format(r.avg_accuracy) }}</td>
+      <td><b>{{ "%.2f"|format(r.score) }}</b></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No software matches those filters.</p>
+  {% endif %}
+{% endif %}
+{% endblock %}

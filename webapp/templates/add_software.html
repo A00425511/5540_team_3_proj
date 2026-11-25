@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Add Software</h2>
+<p>Adds a new software product together with its features.
+   This writes to the <b>Software</b> and <b>SoftwareFeature</b> tables
+   in a single transaction.</p>
+<form method="post">
+  <label>Brand</label>
+  <input type="text" name="brand" required>
+  <label>Product type</label>
+  <select name="type_id" required>
+    {% for tid, tname in types %}
+      <option value="{{ tid }}">{{ tname }}</option>
+    {% endfor %}
+  </select>
+  <label>Release date</label>
+  <input type="date" name="release_date">
+  <label>Features (hold Ctrl/Cmd to pick several)</label>
+  <select name="feature_ids" multiple size="6">
+    {% for fid, fname in features %}
+      <option value="{{ fid }}">{{ fname }}</option>
+    {% endfor %}
+  </select>
+  <br>
+  <button type="submit">Add software</button>
+</form>
+{% endblock %}

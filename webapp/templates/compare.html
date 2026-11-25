@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Compare software</h2>
+<p>Pick two or more products to see their average scores side by side.</p>
+<form method="post">
+  {% for sid, brand in software_list %}
+    <label><input type="checkbox" name="software_ids" value="{{ sid }}"> {{ brand }}</label>
+  {% endfor %}
+  <br>
+  <button type="submit">Compare</button>
+</form>
+
+{% if results %}
+<table>
+  <tr><th>Brand</th><th>Reviews</th><th>Friendliness</th><th>Price</th>
+      <th>Features</th><th>Accuracy</th><th>Overall</th></tr>
+  {% for r in results %}
+  <tr>
+    <td>{{ r.Brand }}</td><td>{{ r.num_reviews }}</td>
+    <td>{{ "%.2f"|format(r.avg_friendliness or 0) }}</td>
+    <td>{{ "%.2f"|format(r.avg_price or 0) }}</td>
+    <td>{{ "%.2f"|format(r.avg_features or 0) }}</td>
+    <td>{{ "%.2f"|format(r.avg_accuracy or 0) }}</td>
+    <td><b>{{ "%.2f"|format(r.overall or 0) }}</b></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

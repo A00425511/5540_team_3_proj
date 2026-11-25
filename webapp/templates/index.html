@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Database tables</h2>
+<p>Pick a table to see its contents.</p>
+<ul>
+  {% for t in tables %}
+    <li><a href="{{ url_for('show_table', name=t) }}">{{ t }}</a></li>
+  {% endfor %}
+</ul>
+
+<h2>What you can do here</h2>
+<ul>
+  <li><a href="{{ url_for('rankings') }}">Rankings</a> — top N or bottom N
+      software by friendliness, price, features, accuracy, or overall,
+      optionally filtered by product type.</li>
+  <li><a href="{{ url_for('compare') }}">Compare</a> — pick two or more
+      products and see their average scores side by side.</li>
+  <li><a href="{{ url_for('search') }}">Search</a> — find software by brand
+      or product type, with a minimum average score.</li>
+  <li><a href="{{ url_for('add_evaluation') }}">Add Evaluation</a> — register
+      a new user and submit their evaluation in one step.</li>
+  <li><a href="{{ url_for('add_software') }}">Add Software</a> — add a new
+      software product together with its features.</li>
+</ul>
+{% endblock %}
